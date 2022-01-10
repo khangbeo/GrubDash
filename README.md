@@ -1,16 +1,21 @@
 # GrubDash
 
-## One of Thinkful's backend project
+## Installation
+Fork and clone this repo, then run `npm install` for the associated dependencies.
 
-run `npm install` to get all project dependencies  
+Run `npm start` to start the project 
 
-run `npm start` to start the server  
+## Basic Info
+I made an API for one of Thinkful's back-end project. The API have two routes and allow users to access the requested data and manipulate specific data using their corresponding id
 
-run `npm run start:dev` to start the development server
+## Tech Stacks
+* Node
+* Express
+* JavaScript
 
-### Paths
+## Paths
 
-/dishes  
-/dishes/dishId  
-/orders  
-/orders/:orderId  
+* /dishes  
+* /dishes/:dishId  
+* /orders  
+* /orders/:orderId  
