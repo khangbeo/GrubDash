@@ -1,10 +1,17 @@
 // GrubDash frontend. Talks to the GrubDash API in this repo (src/server.js).
-// API base: defaults to http://localhost:5000. Override with ?api=<url> in the
-// page URL, or set localStorage "grubdash-api" — handy if the API runs elsewhere.
+//
+// API base resolution:
+//   1. ?api=<url> in the page URL
+//   2. localStorage "grubdash-api"
+//   3. When the page is served from GitHub Pages: the public Render deployment
+//      (PUBLIC_API below — if your Render URL is different, change this line)
+//   4. Otherwise (local dev): http://localhost:5000
+const PUBLIC_API = "https://grubdash.onrender.com";
+
 const API_BASE = (
   new URLSearchParams(location.search).get("api") ||
   localStorage.getItem("grubdash-api") ||
-  "http://localhost:5000"
+  (location.hostname.endsWith("github.io") ? PUBLIC_API : "http://localhost:5000")
 ).replace(/\/$/, "");
 
 const STATUSES = ["pending", "preparing", "out-for-delivery", "delivered"];
@@ -418,6 +425,13 @@ async function loadAll() {
   } catch {
     state.apiOnline = false;
     $("#apiBaseLabel").textContent = API_BASE;
+    if (API_BASE === PUBLIC_API) {
+      $("#apiBannerText").innerHTML = "";
+      const span = document.createElement("span");
+      span.textContent =
+        "Can't reach the public GrubDash API. The free Render service sleeps when idle and can take about a minute to wake up — wait a bit, then retry.";
+      $("#apiBannerText").append(span);
+    }
     $("#apiBanner").hidden = false;
     renderDishes();
     renderCart();

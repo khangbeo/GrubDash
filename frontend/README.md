@@ -21,9 +21,17 @@ A small frontend for the GrubDash API in this repo, in plain HTML, CSS, and Java
 
 The API already enables CORS (`app.use(cors())` in `src/app.js`), so the frontend can call it from a different local port.
 
-If your API runs somewhere other than `http://localhost:5000`, point the frontend at it with a query string, e.g. `http://localhost:8000/?api=https://your-api.example.com`, or run `localStorage.setItem("grubdash-api", "<url>")` in the browser console.
+Which API the frontend talks to, in order: a `?api=<url>` query string, then `localStorage` key `grubdash-api`, then — when the page is served from GitHub Pages — the public Render deployment (`PUBLIC_API` at the top of `app.js`), and everywhere else `http://localhost:5000`.
 
-If the API is not running, the page shows a banner saying so, with a Retry button once you have started it.
+If the API is not reachable, the page shows a banner saying so, with a Retry button.
+
+## Public version (GitHub Pages + Render)
+
+The fully public setup has two halves:
+
+1. **API on Render (free).** This repo has a `render.yaml` blueprint. Either click "Deploy to Render" in the root README, or in the Render dashboard choose New -> Blueprint and pick this repo. Render sets `PORT` automatically (the server already reads it). The service is named `grubdash`, so its URL is `https://grubdash.onrender.com` — if you rename it, update `PUBLIC_API` in `app.js` to match. Note the free tier sleeps after about 15 idle minutes; the first request afterwards takes up to a minute to wake it, and the frontend's banner says so.
+
+2. **Frontend on GitHub Pages.** One-time: in the repo's Settings -> Pages, set the source to **GitHub Actions**. The workflow in `.github/workflows/pages.yml` then publishes the `frontend/` folder on every push to main that touches it. The site lands at `https://khangbeo.github.io/GrubDash/`, and because it is served from `github.io`, the frontend automatically uses the Render API instead of localhost.
 
 ## What it does
 

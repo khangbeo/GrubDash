@@ -1,0 +1,12 @@
+# Render blueprint for the GrubDash API.
+# Deploy: Render dashboard -> New -> Blueprint -> pick this repo.
+# Or use the "Deploy to Render" button in the root README.
+# Render sets PORT automatically; src/server.js already reads it.
+services:
+  - type: web
+    name: grubdash
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /dishes
