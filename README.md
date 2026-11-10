@@ -19,3 +19,7 @@ I made an API for one of Thinkful's back-end project. The API have two routes an
 * /dishes/:dishId  
 * /orders  
 * /orders/:orderId  
+
+## Frontend
+
+A plain HTML/CSS/JS frontend lives in [`frontend/`](frontend/README.md): menu, cart and checkout, order tracking with status changes, and dish add/edit, all against this API. Start the API with `npm start`, then serve the `frontend/` folder and open it in a browser. See `frontend/README.md` for details.

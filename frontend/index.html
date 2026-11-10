@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="GrubDash frontend. Browse the menu, place an order, and track it." />
+    <title>GrubDash</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <span class="logo">Grub<span class="logo-accent">Dash</span></span>
+        <nav class="tabs" aria-label="Main">
+          <button class="tab active" type="button" data-tab="menu">Menu</button>
+          <button class="tab" type="button" data-tab="orders">Orders <span id="orderCount" class="badge" hidden>0</span></button>
+          <button class="tab" type="button" data-tab="dish-form">Add a dish</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <div id="apiBanner" class="banner" hidden>
+        <p>
+          Can't reach the GrubDash API at <code id="apiBaseLabel">http://localhost:5000</code>.
+          Start the backend with <code>npm start</code> in the repo root, then retry.
+        </p>
+        <button id="retryApi" class="btn btn-secondary" type="button">Retry</button>
+      </div>
+
+      <!-- Menu + cart -->
+      <section id="tab-menu" class="tab-panel">
+        <div class="menu-layout">
+          <div>
+            <h1>Menu</h1>
+            <div id="dishes" class="dish-grid"></div>
+            <p id="dishesEmpty" class="empty" hidden>No dishes yet. Add the first one from the "Add a dish" tab.</p>
+          </div>
+
+          <aside class="cart" aria-label="Your order">
+            <h2>Your order</h2>
+            <div id="cartItems"></div>
+            <p id="cartEmpty" class="muted">Your cart is empty.</p>
+            <div id="cartTotalRow" class="cart-total" hidden>
+              <span>Total</span>
+              <strong id="cartTotal">$0.00</strong>
+            </div>
+
+            <form id="checkoutForm">
+              <label for="deliverTo">Delivery address</label>
+              <input id="deliverTo" type="text" placeholder="123 Main St" autocomplete="street-address" required />
+              <label for="mobileNumber">Mobile number</label>
+              <input id="mobileNumber" type="tel" placeholder="(555) 123-4567" autocomplete="tel" required />
+              <button id="placeOrder" class="btn btn-primary btn-block" type="submit" disabled>Place order</button>
+            </form>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Orders -->
+      <section id="tab-orders" class="tab-panel" hidden>
+        <h1>Orders</h1>
+        <div id="orders" class="order-list"></div>
+        <p id="ordersEmpty" class="empty" hidden>No orders yet. Place one from the menu.</p>
+      </section>
+
+      <!-- Add / edit dish -->
+      <section id="tab-dish-form" class="tab-panel" hidden>
+        <h1 id="dishFormTitle">Add a dish</h1>
+        <form id="dishForm" class="dish-form">
+          <label for="dishName">Name</label>
+          <input id="dishName" type="text" placeholder="Margherita pizza" required />
+
+          <label for="dishDescription">Description</label>
+          <input id="dishDescription" type="text" placeholder="Wood-fired with fresh basil" required />
+
+          <label for="dishPrice">Price (whole dollars)</label>
+          <input id="dishPrice" type="number" min="1" step="1" placeholder="12" required />
+
+          <label for="dishImage">Image URL</label>
+          <input id="dishImage" type="url" placeholder="https://…" required />
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit" id="dishSubmit">Add dish</button>
+            <button class="btn btn-ghost" type="button" id="dishCancel" hidden>Cancel edit</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" hidden></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
